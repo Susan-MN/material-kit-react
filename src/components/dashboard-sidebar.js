@@ -16,7 +16,8 @@ import { XCircle as XCircleIcon } from '../icons/x-circle';
 import { Logo } from './logo';
 import { NavItem } from './nav-item';
 
-const items = [
+const items=[]
+const items1 = [
   {
     href: '/',
     icon: (<ChartBarIcon fontSize="small" />),
@@ -72,7 +73,33 @@ export const DashboardSidebar = (props) => {
       if (!router.isReady) {
         return;
       }
-
+         axios
+      .post('http://194.233.92.71/mFinance/ValidateUser', {
+        loginId: "admin",
+        loginKey: "demo"
+        
+      })
+      .then((response) => {
+        const data=response.data
+          console.log(data);
+        // setMessage(message,data);
+        //   console.log(message)
+        
+        for(const property in data.menuItems)
+        {
+          console.log(property)
+          items.push({
+            href: "/",
+             icon: (<CogIcon fontSize="small" />),
+             title: data.menuItems[property].menuName
+          })
+        }
+      })
+    
+      .catch((error) => {
+        alert("error");
+        console.log(error);
+       });
       if (open) {
         onClose?.();
       }
